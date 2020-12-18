@@ -58,6 +58,9 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+# Graphql codegen
+web/src/generated/
+
 # Yarn Integrity file
 .yarn-integrity
 yarn.lock

@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx,js,json,css,less,scss}\"",
-    "start": "next start"
+    "start": "next start",
+    "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.0",
@@ -15,13 +16,19 @@
     "formik": "^2.2.6",
     "framer-motion": "^2.9.4",
     "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
     "next": "latest",
+    "next-urql": "^2.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "urql": "^1.11.4"
   },
   "license": "MIT",
   "devDependencies": {
+    "@graphql-codegen/cli": "1.19.4",
+    "@graphql-codegen/typescript": "1.19.0",
+    "@graphql-codegen/typescript-operations": "1.17.12",
+    "@graphql-codegen/typescript-urql": "^2.0.3",
     "@types/node": "^14.14.14",
     "prettier": "^2.2.1",
     "typescript": "^4.1.3"

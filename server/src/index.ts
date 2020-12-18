@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import {ApolloServer} from 'apollo-server-express';
 import connectRedis from 'connect-redis';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import {MikroORM} from '@mikro-orm/core';
@@ -31,6 +32,11 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient();
   app.use(
+    // prevent cors from front end
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    }),
     session({
       cookie: {
         httpOnly: true, // cannot access cookie in front end
@@ -57,7 +63,7 @@ const main = async () => {
     context: ({req, res}): MyContext => ({em: orm.em, req, res}),
   });
 
-  apolloServer.applyMiddleware({app}); // setup graphql server
+  apolloServer.applyMiddleware({app, cors: false}); // setup graphql server
 
   app.get('/', (_, res) => {
     res.send('hello');
