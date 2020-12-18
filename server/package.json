@@ -7,7 +7,7 @@
     "_comment": "watch is to listen to any changes in files and re-compiles it to dist, while dev is to run the dist files and update when dist files are changed.",
     "watch": "tsc -w",
     "dev": "nodemon dist/index.js",
-    "format": "prettier --write \"{,!(node_modules)/**/}*.{ts,tsx,js,json,css,less,scss}\"",
+    "format": "prettier --write \"{,!(node_modules|ne)/**/}*.{ts,tsx,js,json,css,less,scss}\"",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "create:migration": "mikro-orm migration:create"

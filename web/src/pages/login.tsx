@@ -3,26 +3,26 @@ import React from 'react';
 import {Form, Formik} from 'formik';
 import {Wrapper} from '../components/Wrapper';
 import {InputField} from '../components/InputField';
-import {useRegisterMutation} from '../generated/graphql';
+import {useLoginMutation} from '../generated/graphql';
 import {toErrorMap} from '../../utils/toErrorMap';
 import {useRouter} from 'next/router';
 
 interface Props {}
 
-const Register: React.FC<Props> = () => {
-  const [, register] = useRegisterMutation(); // useMutation allows you to execute graphql queries at the client
+const Login: React.FC<Props> = () => {
+  const [, login] = useLoginMutation(); // useMutation allows you to execute graphql queries at the client
   const router = useRouter();
-  const handleRegisterSubmit = async (values, {setErrors}) => {
-    const response = await register(values);
-    if (response.data?.register.errors) {
-      setErrors(toErrorMap(response.data.register.errors));
-    } else if (response.data?.register.user) {
+  const handleLoginSubmit = async (values, {setErrors}) => {
+    const response = await login(values);
+    if (response.data?.login.errors) {
+      setErrors(toErrorMap(response.data.login.errors));
+    } else if (response.data?.login.user) {
       router.push('/');
     }
   };
   return (
     <Wrapper>
-      <Formik initialValues={{username: '', password: ''}} onSubmit={handleRegisterSubmit}>
+      <Formik initialValues={{username: '', password: ''}} onSubmit={handleLoginSubmit}>
         {({isSubmitting}) => (
           <Form>
             <InputField name="username" placeholder="Username" label="Username" />
@@ -31,7 +31,7 @@ const Register: React.FC<Props> = () => {
             </Box>
             <Box mt={4}>
               <Button type="submit" colorScheme="teal" isLoading={isSubmitting}>
-                Register
+                Login
               </Button>
             </Box>
           </Form>
@@ -41,4 +41,4 @@ const Register: React.FC<Props> = () => {
   );
 };
 
-export default Register;
+export default Login;
