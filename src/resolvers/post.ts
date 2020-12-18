@@ -88,4 +88,8 @@ export class PostResolver {
       return false;
     }
   }
+  // Example query
+  // mutation {
+  //   deletePost(id: 1)
+  // }
 }
