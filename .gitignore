@@ -33,7 +33,8 @@ coverage
 build/Release
 
 # Dependency directories
-node_modules/
+server/node_modules/
+web/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -62,17 +63,18 @@ typings/
 yarn.lock
 
 # dotenv environment variables file
-.env
-.env.test
+server/.env
+web/.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
 # migrations output
-src/migrations
+server/src/migrations
 
 # build output
-dist/
+server/dist/
+web/dist/
 
 # next.js build output
 .next
