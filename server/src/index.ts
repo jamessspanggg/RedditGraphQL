@@ -19,7 +19,7 @@ import {UserResolver} from './resolvers/user';
 // database
 import mikroConfig from './mikro-orm.config';
 
-import {__prod__} from './constants';
+import {COOKIE_NAME, __prod__} from './constants';
 import {MyContext} from './types';
 
 const main = async () => {
@@ -44,7 +44,7 @@ const main = async () => {
         sameSite: 'lax', // CSRF
         secure: __prod__, // cookie only works in https, which is in production
       },
-      name: 'qid',
+      name: COOKIE_NAME,
       store: new RedisStore({
         client: redisClient,
         disableTouch: true,
