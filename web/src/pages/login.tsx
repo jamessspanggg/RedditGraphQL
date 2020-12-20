@@ -1,8 +1,9 @@
-import {Button, FormControl, FormLabel, FormErrorMessage, Input, Box} from '@chakra-ui/react';
+import {Button, FormControl, FormLabel, FormErrorMessage, Input, Box, Link} from '@chakra-ui/react';
 import React from 'react';
 import {Form, Formik} from 'formik';
 import {Wrapper} from '../components/Wrapper';
 import {InputField} from '../components/InputField';
+import NextLink from 'next/link';
 import {useLoginMutation} from '../generated/graphql';
 import {toErrorMap} from '../../utils/toErrorMap';
 import {useRouter} from 'next/router';
@@ -24,17 +25,20 @@ const Login: React.FC<Props> = () => {
   };
   return (
     <Wrapper>
-      <Formik initialValues={{username: '', password: ''}} onSubmit={handleLoginSubmit}>
+      <Formik initialValues={{usernameOrEmail: '', password: ''}} onSubmit={handleLoginSubmit}>
         {({isSubmitting}) => (
           <Form>
-            <InputField name="username" placeholder="Username" label="Username" />
+            <InputField name="usernameOrEmail" placeholder="Username or Email" label="Username or Email" />
             <Box mt={4}>
               <InputField name="password" placeholder="Password" label="Password" type="password" />
             </Box>
             <Box mt={4}>
-              <Button type="submit" colorScheme="teal" isLoading={isSubmitting}>
+              <Button mr={4} type="submit" colorScheme="teal" isLoading={isSubmitting}>
                 Login
               </Button>
+              <NextLink href="/forgot-password">
+                <Link>Forgot password?</Link>
+              </NextLink>
             </Box>
           </Form>
         )}

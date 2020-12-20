@@ -20,6 +20,10 @@ export class User {
   @Property({type: 'text', unique: true})
   username!: string;
 
+  @Field(() => String)
+  @Property({type: 'text', unique: true, nullable: true})
+  email!: string;
+
   // without a @Field, you cannot select it in the graphql, which makes sense since it is confidential
   @Property({type: 'text'})
   password!: string;

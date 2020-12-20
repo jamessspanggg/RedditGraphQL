@@ -15,7 +15,7 @@ const Register: React.FC<Props> = () => {
   const [, register] = useRegisterMutation(); // useMutation allows you to execute graphql queries at the client
   const router = useRouter();
   const handleRegisterSubmit = async (values, {setErrors}) => {
-    const response = await register(values);
+    const response = await register({options: values});
     if (response.data?.register.errors) {
       setErrors(toErrorMap(response.data.register.errors));
     } else if (response.data?.register.user) {
@@ -24,10 +24,13 @@ const Register: React.FC<Props> = () => {
   };
   return (
     <Wrapper>
-      <Formik initialValues={{username: '', password: ''}} onSubmit={handleRegisterSubmit}>
+      <Formik initialValues={{email: '', username: '', password: ''}} onSubmit={handleRegisterSubmit}>
         {({isSubmitting}) => (
           <Form>
             <InputField name="username" placeholder="Username" label="Username" />
+            <Box mt={4}>
+              <InputField name="email" placeholder="Email" label="Email" type="email" />
+            </Box>
             <Box mt={4}>
               <InputField name="password" placeholder="Password" label="Password" type="password" />
             </Box>

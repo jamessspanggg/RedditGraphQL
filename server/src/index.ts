@@ -5,7 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import {MikroORM} from '@mikro-orm/core';
-import redis from 'redis';
+import Redis from 'ioredis';
 import session from 'express-session';
 
 // types
@@ -30,7 +30,7 @@ const main = async () => {
   const app = express();
 
   const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient();
+  const redis = new Redis();
   app.use(
     // prevent cors from front end
     cors({
@@ -46,7 +46,7 @@ const main = async () => {
       },
       name: COOKIE_NAME,
       store: new RedisStore({
-        client: redisClient,
+        client: redis,
         disableTouch: true,
       }),
       saveUninitialized: false,
@@ -60,7 +60,7 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: ({req, res}): MyContext => ({em: orm.em, req, res}),
+    context: ({req, res}): MyContext => ({em: orm.em, req, res, redis}),
   });
 
   apolloServer.applyMiddleware({app, cors: false}); // setup graphql server
