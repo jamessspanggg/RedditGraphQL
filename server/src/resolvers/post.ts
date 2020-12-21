@@ -1,12 +1,11 @@
 import {Post} from '../entities/Post';
-import {Arg, Ctx, Int, Mutation, Query, Resolver} from 'type-graphql';
-import {MyContext} from '../types';
+import {Arg, Int, Mutation, Query, Resolver} from 'type-graphql';
 
 @Resolver()
 export class PostResolver {
   @Query(() => [Post]) // first graphql query where schema is single query hello
-  posts(@Ctx() {em}: MyContext): Promise<Post[]> {
-    return em.find(Post, {});
+  posts(): Promise<Post[]> {
+    return Post.find();
   }
   // Example Query:
   // posts {
@@ -21,9 +20,8 @@ export class PostResolver {
   post(
     // note: within the arg is the graphql type, after arg is typescript type
     @Arg('id', () => Int) id: number,
-    @Ctx() {em}: MyContext,
-  ): Promise<Post | null> {
-    return em.findOne(Post, {id});
+  ): Promise<Post | undefined> {
+    return Post.findOne(id);
   }
   // Example Query:
   // {
@@ -36,11 +34,8 @@ export class PostResolver {
   async createPost(
     // note: within the arg is the graphql type, after arg is typescript type
     @Arg('title', () => String) title: string,
-    @Ctx() {em}: MyContext,
   ): Promise<Post> {
-    const post = em.create(Post, {title});
-    await em.persistAndFlush(post);
-    return post;
+    return Post.create({title}).save();
   }
   // Example Query
   // mutation {
@@ -56,13 +51,12 @@ export class PostResolver {
   async updatePost(
     @Arg('id', () => Int) id: number,
     @Arg('title', () => String, {nullable: true}) title: string,
-    @Ctx() {em}: MyContext,
   ): Promise<Post | null> {
-    const post = await em.findOne(Post, {id});
+    const post = await Post.findOne(id);
     if (!post) return null;
     if (typeof title !== 'undefined') {
       post.title = title;
-      await em.persistAndFlush(post);
+      await Post.update({id}, {title});
     }
     return post;
   }
@@ -77,13 +71,9 @@ export class PostResolver {
   // }
 
   @Mutation(() => Boolean)
-  async deletePost(@Arg('id', () => Int) id: number, @Ctx() {em}: MyContext): Promise<Boolean> {
-    try {
-      await em.nativeDelete(Post, {id});
-      return true;
-    } catch (e) {
-      return false;
-    }
+  async deletePost(@Arg('id', () => Int) id: number): Promise<Boolean> {
+    await Post.delete(id);
+    return true;
   }
   // Example query
   // mutation {
